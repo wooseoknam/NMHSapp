@@ -1,5 +1,6 @@
 package nmhs.backend.service;
 
+import jakarta.transaction.Transactional;
 import nmhs.backend.domain.Member;
 import nmhs.backend.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class MemberService {
 
     private final MemberRepository memberRepository;
