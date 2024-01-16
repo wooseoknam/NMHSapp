@@ -1,12 +1,10 @@
 package nmhs.backend.community.question;
 
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -29,5 +27,10 @@ public class QuestionController {
     public Optional<Question> detail(Model model, @PathVariable("id") Integer id) {
         Optional<Question> question = questionService.getDetail(id);
         return question;
+    }
+
+    @PostMapping("/question/create")
+    public void create(@RequestBody Question question) {
+        questionService.create(question);
     }
 }

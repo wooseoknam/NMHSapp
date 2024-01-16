@@ -1,14 +1,17 @@
-import StackNavigator from './navigation/StackNavigator';
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import TabNavigator from './navigation/TabNavigator';
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import Test from './screens/Test';
+import CommunityStackScreen from './screens/community/CommunityStackScreen';
 
-const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
 
 export default function App() {
   return (
     <NavigationContainer>
-      <StackNavigator />
+      <Tab.Navigator screenOptions={{ headerShown: false }}>
+        <Tab.Screen name="Community" component={CommunityStackScreen} />
+        <Tab.Screen name="Test" component={Test} />
+      </Tab.Navigator>
     </NavigationContainer>
   );
 }

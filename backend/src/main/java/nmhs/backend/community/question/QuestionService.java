@@ -1,5 +1,6 @@
 package nmhs.backend.community.question;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,5 +21,15 @@ public class QuestionService {
 
     public Optional<Question> getDetail(Integer id) {
         return this.questionRepository.findById(id);
+    }
+
+    public void create(Question question) {
+        Question q = new Question();
+
+        q.setSubject(question.getSubject());
+        q.setContent(question.getContent());
+        q.setCreateDate(LocalDateTime.now());
+
+        questionRepository.save(q);
     }
 }
