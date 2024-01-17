@@ -19,8 +19,9 @@ public class QuestionService {
         return this.questionRepository.findAll();
     }
 
-    public Optional<Question> getDetail(Integer id) {
-        return this.questionRepository.findById(id);
+    public Question getDetail(Integer id) {
+        Optional<Question> question = this.questionRepository.findById(id);
+        return question.get();
     }
 
     public void create(Question question) {
@@ -31,5 +32,18 @@ public class QuestionService {
         q.setCreateDate(LocalDateTime.now());
 
         questionRepository.save(q);
+    }
+
+    public void modify(Question question, Integer id) {
+        Question q = questionRepository.findById(id).get();
+
+        q.setSubject(question.getSubject());
+        q.setContent(question.getContent());
+
+        questionRepository.save(q);
+    }
+
+    public void delete(Integer id) {
+        questionRepository.deleteById(id);
     }
 }

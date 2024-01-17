@@ -4,8 +4,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "http://192.168.0.5:8081")
@@ -24,13 +22,23 @@ public class QuestionController {
     }
 
     @GetMapping("/question/detail/{id}")
-    public Optional<Question> detail(Model model, @PathVariable("id") Integer id) {
-        Optional<Question> question = questionService.getDetail(id);
+    public Question detail(@PathVariable("id") Integer id) {
+        Question question = questionService.getDetail(id);
         return question;
     }
 
     @PostMapping("/question/create")
     public void create(@RequestBody Question question) {
         questionService.create(question);
+    }
+
+    @PutMapping("/question/modify/{id}")
+    public void modify(@RequestBody Question question, @PathVariable("id") Integer id) {
+        questionService.modify(question, id);
+    }
+
+    @DeleteMapping("/question/delete/{id}")
+    public void delete(@PathVariable("id") Integer id) {
+        questionService.delete(id);
     }
 }

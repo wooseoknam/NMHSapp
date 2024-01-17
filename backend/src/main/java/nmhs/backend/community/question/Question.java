@@ -1,5 +1,7 @@
 package nmhs.backend.community.question;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import nmhs.backend.community.answer.Answer;
 
@@ -18,6 +20,7 @@ public class Question {
     private LocalDateTime createDate;
     private LocalDateTime deleteDate;
     @OneToMany(mappedBy = "question")
+    @JsonManagedReference
     private List<Answer> answerList;
 
     public List<Answer> getAnswerList() {

@@ -1,9 +1,12 @@
 package nmhs.backend.community.answer;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import nmhs.backend.community.question.Question;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Entity
 public class Answer {
@@ -15,6 +18,7 @@ public class Answer {
     private LocalDateTime createDate;
     private LocalDateTime deleteDate;
     @ManyToOne
+    @JsonBackReference
     private Question question;
 
     public Long getId() {
