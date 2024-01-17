@@ -17,15 +17,35 @@ const QuestionDetail = ({ route }) => {
     });
 
     const onSubmit = (data) => {
-        fetch('http://172.30.1.77:8080/answer/create', {
+        fetch(`http://172.30.1.77:8080/answer/create/${id}`, {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                answer: data.answer,
+                content: data.answer,
             }),
+        })
+    }
+
+    const onPut = () => {
+        fetch(`http://172.30.1.77:8080/question/modify/${id}`, {
+            method: 'PUT',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                subject: "수정할 제목",
+                content: "수정할 내용"
+            }),
+        })
+    }
+
+    const onDelete = () => {
+        fetch(`http://172.30.1.77:8080/question/delete/${id}`, {
+            method: 'DELETE',
         })
     }
 
@@ -41,6 +61,10 @@ const QuestionDetail = ({ route }) => {
         <View>
             <Text>제목: {data.subject}</Text>
             <Text>내용: {data.content}</Text>
+
+            {data.answerList && data.answerList.map((item, index) => (
+                <Text key={index}>{item.content}</Text>
+            ))}
 
             <Controller
                 control={control}
@@ -60,6 +84,8 @@ const QuestionDetail = ({ route }) => {
             {errors.answer && <Text>댓글을 입력하세요.</Text>}
 
             <Button title="답변 등록" onPress={handleSubmit(onSubmit)} disabled={!watch("answer")}/>
+            <Button title="글 수정" onPress={() => onPut()}></Button>
+            <Button title="글 삭제" onPress={() => onDelete()}></Button>
         </View>
     )
 }
