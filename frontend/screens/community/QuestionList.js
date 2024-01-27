@@ -1,13 +1,16 @@
 import { useEffect, useState } from "react"
-import { View, Text, Button } from "react-native"
+import { Button, Dimensions, ScrollView, View, Text, TouchableOpacity } from "react-native"
 import { useIsFocused } from "@react-navigation/native";
+import { Icon, ListItem } from "@rneui/themed";
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const QuestionList = ({ navigation }) => {
     const [data, setData] = useState([]);
     const isFocused = useIsFocused();
+    const insets = useSafeAreaInsets();
 
     useEffect(() => {
-        fetch('http://172.30.1.77:8080/question/list')
+        fetch('http://192.168.0.5:8080/question/list')
         .then(response => response.json())
         .then(response => {
             setData(response);
@@ -15,11 +18,40 @@ const QuestionList = ({ navigation }) => {
     }, [isFocused]);
 
     return (
-        <View>
-            {data.map((item, index) => (
-                <Text key={index} onPress={() => navigation.navigate("Detail", { id: item.id })}>{index+1}. {item.subject}</Text>
-            ))}
-            <Button title="글 작성" onPress={() => navigation.navigate("Create")}/>
+        <View style={ { flex: 1 } }>
+            <ScrollView>
+                {data.map((l, i) => (
+                    <ListItem 
+                        key={i} 
+                        bottomDivider
+                        onPress={() => navigation.navigate("Detail", { id: l.id })}
+                    >
+                        <ListItem.Content>
+                            <ListItem.Title>{l.subject}</ListItem.Title>
+                            <ListItem.Subtitle>{l.content} {l.answerList.length}</ListItem.Subtitle>
+                        </ListItem.Content>
+                    </ListItem>
+                ))}
+            </ScrollView>
+            <View style={ {
+                position: 'absolute',
+                top: Dimensions.get('window').height / 1.4,
+                left: Dimensions.get('window').width / 1.5
+            } }>
+                <TouchableOpacity
+                    style={{
+                    backgroundColor: 'blue',
+                    padding: 10,
+                    borderRadius: 5,
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    }}
+                    onPress={() => navigation.navigate("Create")}
+                >
+                    <Icon name="add-circle-outline" type="ionicon" color="white" size={24} />
+                    <Text style={{ color: 'white', marginLeft: 10 }}>글 쓰기</Text>
+                </TouchableOpacity>
+            </View>
         </View>
     )
 }
