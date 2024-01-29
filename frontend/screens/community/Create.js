@@ -14,7 +14,7 @@ const Create = ({ navigation }) => {
     })
 
     const onSubmit = (data) => {
-        fetch('http://172.30.1.77:8080/question/create', {
+        fetch('http://192.168.0.5:8080/question/create', {
             method: 'POST',
             headers: {
                 Accept: 'application/json',

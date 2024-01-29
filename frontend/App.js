@@ -5,9 +5,30 @@ import CommunityStackScreen from './screens/community/CommunityStackScreen';
 import Menu from './screens/menu/Menu';
 import SplashScreen from './screens/SplashScreen';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import SignIn from './screens/auth/SignIn';
+import SignUp from './screens/auth/SignUp';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
+
+const MainTabScreen = () => {
+  return (
+    <Tab.Navigator screenOptions={{ headerShown: false }}>
+      <Tab.Screen name="Community" component={CommunityStackScreen} />
+      <Tab.Screen name="Menu" component={Menu} />
+      <Tab.Screen name="Test" component={Test} />
+    </Tab.Navigator>
+  )
+}
+
+const Auth = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="SignIn" component={SignIn} />
+      <Stack.Screen name="SignUp" component={SignUp} />
+    </Stack.Navigator>
+  )
+}
 
 export default function App() {
   return (
@@ -21,21 +42,9 @@ export default function App() {
     // </NavigationContainer>
     <NavigationContainer>
       <Stack.Navigator initialRouteName="SplashScreen">
-        {/* SplashScreen which will come once for 5 Seconds */}
-        <Stack.Screen
-          name="SplashScreen"
-          component={SplashScreen}
-          // Hiding header for Splash Screen
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="Test"
-          component={Test}
-        />
-        <Stack.Screen
-          name="Menu"
-          component={Menu}
-        />
+        <Stack.Screen name="SplashScreen" component={SplashScreen} options={{headerShown: false}} />
+        <Stack.Screen name="Auth" component={Auth} options={{headerShown: false}} />
+        <Stack.Screen name="MainTab" component={MainTabScreen} options={{headerShown: false}} />
       </Stack.Navigator>
     </NavigationContainer>
   );
