@@ -25,7 +25,7 @@ public class SecurityConfig {
             .csrf((csrf) -> csrf
                 .ignoringRequestMatchers(new AntPathRequestMatcher("/member/**")))
             .formLogin((formLogin) -> formLogin
-//                .loginPage("/member/signin")
+                .loginPage("/login")
                 .loginProcessingUrl("/member/signin")
                 .usernameParameter("name"))
         ;

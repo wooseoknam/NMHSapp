@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { Controller, useForm } from "react-hook-form";
 import { Button, Text, TextInput, View } from "react-native"
+import { IP } from "../../data";
 
 const QuestionDetail = ({ route }) => {
     const { id } = route.params;
@@ -17,7 +18,7 @@ const QuestionDetail = ({ route }) => {
     });
 
     const onSubmit = (data) => {
-        fetch(`http://192.168.0.5:8080/answer/create/${id}`, {
+        fetch(`http://${IP}:8080/answer/create/${id}`, {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
@@ -30,7 +31,7 @@ const QuestionDetail = ({ route }) => {
     }
 
     const onPut = () => {
-        fetch(`http://192.168.0.5:8080/question/modify/${id}`, {
+        fetch(`http://${IP}:8080/question/modify/${id}`, {
             method: 'PUT',
             headers: {
                 Accept: 'application/json',
@@ -44,13 +45,13 @@ const QuestionDetail = ({ route }) => {
     }
 
     const onDelete = () => {
-        fetch(`http://192.168.0.5:8080/question/delete/${id}`, {
+        fetch(`http://${IP}:8080/question/delete/${id}`, {
             method: 'DELETE',
         })
     }
 
     useEffect(() => {
-        fetch(`http://192.168.0.5:8080/question/detail/${id}`)
+        fetch(`http://${IP}:8080/question/detail/${id}`)
         .then(response => response.json())
         .then(response => {
             setData(response);

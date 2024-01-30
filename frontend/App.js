@@ -42,10 +42,11 @@ export default function App() {
     // </NavigationContainer>
     <NavigationContainer>
       <Stack.Navigator initialRouteName="SplashScreen">
-        <Stack.Screen name="SplashScreen" component={SplashScreen} options={{headerShown: false}} />
+        <Stack.Screen params='a' name="SplashScreen" component={SplashScreen} options={{headerShown: false}} />
         <Stack.Screen name="Auth" component={Auth} options={{headerShown: false}} />
         <Stack.Screen name="MainTab" component={MainTabScreen} options={{headerShown: false}} />
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
+

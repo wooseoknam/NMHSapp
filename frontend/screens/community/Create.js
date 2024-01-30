@@ -1,5 +1,6 @@
 import { Controller, useForm } from 'react-hook-form'
 import { Button, Text, TextInput, View } from 'react-native'
+import { IP } from '../../data'
 
 const Create = ({ navigation }) => {
     const {
@@ -14,7 +15,7 @@ const Create = ({ navigation }) => {
     })
 
     const onSubmit = (data) => {
-        fetch('http://192.168.0.5:8080/question/create', {
+        fetch(`http://${IP}:8080/question/create`, {
             method: 'POST',
             headers: {
                 Accept: 'application/json',

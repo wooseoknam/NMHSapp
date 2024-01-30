@@ -3,6 +3,7 @@ import { Button, Dimensions, ScrollView, View, Text, TouchableOpacity } from "re
 import { useIsFocused } from "@react-navigation/native";
 import { Icon, ListItem } from "@rneui/themed";
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { IP } from "../../data";
 
 const QuestionList = ({ navigation }) => {
     const [data, setData] = useState([]);
@@ -10,7 +11,7 @@ const QuestionList = ({ navigation }) => {
     const insets = useSafeAreaInsets();
 
     useEffect(() => {
-        fetch('http://192.168.0.5:8080/question/list')
+        fetch(`http://${IP}:8080/question/list`)
         .then(response => response.json())
         .then(response => {
             setData(response);

@@ -1,15 +1,16 @@
-import React, {useState, createRef, useEffect} from 'react';
+import { useState, createRef, useEffect } from 'react';
 import {
-  StyleSheet,
-  TextInput,
-  View,
-  Text,
-  ScrollView,
-  Image,
-  Keyboard,
-  TouchableOpacity,
-  KeyboardAvoidingView,
-} from 'react-native';
+    StyleSheet,
+    TextInput,
+    View,
+    Text,
+    ScrollView,
+    Image,
+    Keyboard,
+    TouchableOpacity,
+    KeyboardAvoidingView,
+} from 'react-native'
+import { IP } from '../../data'
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -40,7 +41,7 @@ const SignIn = ({navigation}) => {
         }
         formBody = formBody.join('&');
 
-        fetch('http://192.168.0.5:8080/member/signin', {
+        fetch(`http://${IP}:8080/member/signin`, {
             method: 'POST',
             headers: {
                 // Accept: 'application/json',
@@ -50,10 +51,10 @@ const SignIn = ({navigation}) => {
         })
         .then((res) => {
             if (res.ok === true) {
-                AsyncStorage.setItem('user_id', userName);
-                navigation.replace('MainTab');
+                AsyncStorage.setItem('user_id', userName)
+                navigation.replace('MainTab')
             } else {
-                alert('이메일, 비밀번호 다시 확인');
+                alert('이메일, 비밀번호 다시 확인')
             }
         })
         .catch((error) => {

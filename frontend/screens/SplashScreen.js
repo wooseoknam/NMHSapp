@@ -4,7 +4,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const SplashScreen = ({navigation}) => {
+const SplashScreen = ({ navigation }) => {
     const [animating, setAnimating] = useState(true);
 
     useEffect(() => {

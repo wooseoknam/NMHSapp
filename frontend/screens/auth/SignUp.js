@@ -11,6 +11,7 @@ import {
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
+import { IP } from '../../data';
 
 // import Loader from './Components/Loader';
 
@@ -44,7 +45,7 @@ const SignUp = (props) => {
     const passwordInputRef = createRef();
 
     const onSubmit = (data) => {
-        fetch('http://192.168.0.5:8080/member/signup', {
+        fetch(`http://${IP}:8080/member/signup`, {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
