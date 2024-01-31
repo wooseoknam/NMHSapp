@@ -1,6 +1,7 @@
 package nmhs.backend.community.question;
 
-import org.springframework.ui.Model;
+import nmhs.backend.member.Member;
+import nmhs.backend.member.MemberService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,9 +11,11 @@ import java.util.List;
 public class QuestionController {
 
     private QuestionService questionService;
+    private MemberService memberService;
 
-    public QuestionController(QuestionService questionService) {
+    public QuestionController(QuestionService questionService, MemberService memberService) {
         this.questionService = questionService;
+        this.memberService = memberService;
     }
 
     @GetMapping("/question/list")
@@ -29,7 +32,9 @@ public class QuestionController {
 
     @PostMapping("/question/create")
     public void create(@RequestBody Question question) {
-        questionService.create(question);
+        System.out.println(question.getContent());
+        Member member = memberService.getMember(question.getMember().getName());
+        questionService.create(question, member);
     }
 
     @PutMapping("/question/modify/{id}")

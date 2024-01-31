@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import nmhs.backend.community.answer.Answer;
+import nmhs.backend.member.Member;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -22,6 +23,8 @@ public class Question {
     @OneToMany(mappedBy = "question")
     @JsonManagedReference
     private List<Answer> answerList;
+    @ManyToOne
+    private Member member;
 
     public List<Answer> getAnswerList() {
         return answerList;
@@ -69,5 +72,13 @@ public class Question {
 
     public void setDeleteDate(LocalDateTime deleteDate) {
         this.deleteDate = deleteDate;
+    }
+
+    public Member getMember() {
+        return member;
+    }
+
+    public void setMember(Member member) {
+        this.member = member;
     }
 }

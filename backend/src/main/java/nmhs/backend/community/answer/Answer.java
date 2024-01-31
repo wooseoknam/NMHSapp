@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import nmhs.backend.community.question.Question;
+import nmhs.backend.member.Member;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -20,6 +21,8 @@ public class Answer {
     @ManyToOne
     @JsonBackReference
     private Question question;
+    @ManyToOne
+    private Member member;
 
     public Long getId() {
         return id;
@@ -59,5 +62,13 @@ public class Answer {
 
     public void setQuestion(Question question) {
         this.question = question;
+    }
+
+    public Member getMember() {
+        return member;
+    }
+
+    public void setMember(Member member) {
+        this.member = member;
     }
 }

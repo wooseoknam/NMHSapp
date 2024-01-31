@@ -1,7 +1,10 @@
 package nmhs.backend.member;
 
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class MemberService {
@@ -23,5 +26,14 @@ public class MemberService {
 
         memberRepository.save(member);
         return member;
+    }
+
+    public Member getMember(String name) {
+        Optional<Member> member = memberRepository.findByName(name);
+        if (member.isPresent()) {
+            return member.get();
+        } else {
+            throw new UsernameNotFoundException("member not found");
+        }
     }
 }

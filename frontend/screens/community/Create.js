@@ -1,6 +1,7 @@
 import { Controller, useForm } from 'react-hook-form'
 import { Button, Text, TextInput, View } from 'react-native'
 import { IP } from '../../data'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const Create = ({ navigation }) => {
     const {
@@ -14,7 +15,9 @@ const Create = ({ navigation }) => {
         },
     })
 
-    const onSubmit = (data) => {
+    const onSubmit = async (data) => {
+        const userName = await AsyncStorage.getItem('user_id')
+
         fetch(`http://${IP}:8080/question/create`, {
             method: 'POST',
             headers: {
@@ -22,6 +25,7 @@ const Create = ({ navigation }) => {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
+                member: {"name": userName},
                 content: data.content,
                 subject: data.subject,
             }),

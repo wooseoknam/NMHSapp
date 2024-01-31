@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+import nmhs.backend.member.Member;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -24,12 +25,13 @@ public class QuestionService {
         return question.get();
     }
 
-    public void create(Question question) {
+    public void create(Question question, Member member) {
         Question q = new Question();
 
         q.setSubject(question.getSubject());
         q.setContent(question.getContent());
         q.setCreateDate(LocalDateTime.now());
+        q.setMember(member);
 
         questionRepository.save(q);
     }
