@@ -1,5 +1,7 @@
 package nmhs.backend.member;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -22,12 +24,12 @@ public class MemberController {
         this.memberService = memberService;
         this.memberSecurityService = memberSecurityService;
     }
-//
-//    @PostMapping("/member/signup")
-//    public ResponseEntity signup(@RequestBody MemberForm memberForm) {
-//        memberService.join(memberForm.getName(), memberForm.getEmail(), memberForm.getPassword());
-//        return new ResponseEntity(HttpStatus.OK);
-//    }
+
+    @PostMapping("/member/signup")
+    public ResponseEntity signup(@RequestBody MemberForm memberForm) {
+        memberService.join(memberForm.getName(), memberForm.getEmail(), memberForm.getPassword());
+        return new ResponseEntity(HttpStatus.OK);
+    }
 
     @GetMapping("/login")
     public String login() {

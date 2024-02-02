@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import nmhs.backend.member.Member;
+import nmhs.backend.member.MemberRole;
 import org.springframework.stereotype.Service;
 
 @Service

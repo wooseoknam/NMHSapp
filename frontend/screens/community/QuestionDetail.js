@@ -17,6 +17,7 @@ const QuestionDetail = ({ route }) => {
             answer: "",
         },
     })
+    const [userName, setUserName] = useState('')
 
     const onSubmit = async (data) => {
         const userName = await AsyncStorage.getItem('user_id')
@@ -53,44 +54,58 @@ const QuestionDetail = ({ route }) => {
             method: 'DELETE',
         })
     }
+    
+    const getUserName = async () => {
+        setUserName(await AsyncStorage.getItem('user_id'))
+    }
 
     useEffect(() => {
+        getUserName()
         fetch(`http://${IP}:8080/question/detail/${id}`)
         .then(response => response.json())
         .then(response => {
-            setData(response);
+            setData(response)
         })
-    }, []);
+    }, [])
 
     return (
         <View>
-            <Text>제목: {data.subject}</Text>
-            <Text>내용: {data.content}</Text>
+            {
+                data && 
+                <>
+                    <Text>제목: {data.subject}</Text>
+                    <Text>내용: {data.content}</Text>
 
-            {data.answerList && data.answerList.map((item, index) => (
-                <Text key={index}>{item.content}</Text>
-            ))}
+                    {data.answerList && data.answerList.map((item, index) => (
+                        <Text key={index}>{item.content}</Text>
+                    ))}
 
-            <Controller
-                control={control}
-                rules={{
-                required: true,
-                }}
-                render={({ field: { onChange, onBlur, value } }) => (
-                <TextInput
-                    placeholder="댓글을 입력하세요."
-                    onBlur={onBlur}
-                    onChangeText={onChange}
-                    value={value}
-                />
-                )}
-                name="answer"
-            />
-            {errors.answer && <Text>댓글을 입력하세요.</Text>}
+                    <Controller
+                        control={control}
+                        rules={{
+                        required: true,
+                        }}
+                        render={({ field: { onChange, onBlur, value } }) => (
+                        <TextInput
+                            placeholder="댓글을 입력하세요."
+                            onBlur={onBlur}
+                            onChangeText={onChange}
+                            value={value}
+                        />
+                        )}
+                        name="answer"
+                    />
+                    {errors.answer && <Text>댓글을 입력하세요.</Text>}
 
-            <Button title="답변 등록" onPress={handleSubmit(onSubmit)} disabled={!watch("answer")}/>
-            <Button title="글 수정" onPress={() => onPut()}></Button>
-            <Button title="글 삭제" onPress={() => onDelete()}></Button>
+                    <Button title="답변 등록" onPress={handleSubmit(onSubmit)} disabled={!watch("answer")}/>
+                    {data && data.member && data.member.name === userName &&
+                        <View>
+                            <Button title="글 수정" onPress={() => onPut()}></Button>
+                            <Button title="글 삭제" onPress={() => onDelete()}></Button>
+                        </View>
+                    }
+                </>
+            }
         </View>
     )
 }

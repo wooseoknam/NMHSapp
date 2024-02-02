@@ -50,7 +50,7 @@ const SignIn = ({navigation}) => {
             body: formBody
         })
         .then((res) => {
-            if (res.ok === true) {
+            if (!res.url.includes("error")) {
                 AsyncStorage.setItem('user_id', userName)
                 navigation.replace('MainTab')
             } else {

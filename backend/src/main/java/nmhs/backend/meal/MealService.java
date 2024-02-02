@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,5 +38,18 @@ public class MealService {
                 log.error(e.toString());
             }
         }
+    }
+
+    public int[] voteResult() {
+        List<Meal> voteList = mealRepository.findAll();
+
+        int[] result = new int[19];
+        for (int i=0; i< voteList.size(); i++) {
+            Integer time = voteList.get(i).getDayOfWeek();
+            System.out.println(time);
+            result[time] += 1;
+        }
+        
+        return result;
     }
 }
