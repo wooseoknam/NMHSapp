@@ -23,7 +23,6 @@ public class MealController {
     @PostMapping("/vote")
     @PreAuthorize("isAuthenticated()")
     public void vote(@RequestBody List<Meal> meal) {
-        log.info(String.valueOf(meal.size()));
         mealService.vote(meal);
     }
 

@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,15 +32,11 @@ public class MemberController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @GetMapping("/login")
-    public String login() {
-        return "login_form";
-    }
-
     @GetMapping("/info")
     public void currentUserName(@AuthenticationPrincipal UserDetails userDetails) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserDetails user = (UserDetails) authentication.getPrincipal();
-        System.out.println(user.getUsername());
+        String name = userDetails.getUsername();
+        System.out.println(name);
+//        System.out.println(userDetails);
+//        System.out.println(userDetails.getAuthorities());
     }
 }

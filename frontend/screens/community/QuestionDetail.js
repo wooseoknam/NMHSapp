@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { Controller, useForm } from "react-hook-form";
-import { Button, Text, TextInput, View } from "react-native"
+import { Button, Modal, Text, TextInput, TouchableHighlight, View } from "react-native"
 import { IP } from "../../data";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -68,8 +68,49 @@ const QuestionDetail = ({ route }) => {
         })
     }, [])
 
+    const [modalVisible, setModalVisible] = useState(false)
+
+    const onPressButton = () => {
+        setModalVisible(true)
+    }
+
+    const onPressOption = (option) => {
+        console.log('Selected Option:', option)
+        setModalVisible(false)
+    }
+
     return (
         <View>
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => {
+                setModalVisible(false);
+                }}
+            >
+                <View>
+                <View>
+                    {/* 드롭다운 메뉴의 옵션들 */}
+                    <TouchableHighlight onPress={() => onPressOption('Option 1')}>
+                    <Text>Option 1</Text>
+                    </TouchableHighlight>
+                    <TouchableHighlight onPress={() => onPressOption('Option 2')}>
+                    <Text>Option 2</Text>
+                    </TouchableHighlight>
+                    <TouchableHighlight onPress={() => onPressOption('Option 3')}>
+                    <Text>Option 3</Text>
+                    </TouchableHighlight>
+
+                    <Button
+                    title="Close"
+                    onPress={() => {
+                        setModalVisible(false);
+                    }}
+                    />
+                </View>
+                </View>
+            </Modal>
             {
                 data && 
                 <>

@@ -31,6 +31,7 @@ public class MemberSecurityService implements UserDetailsService {
 
         Member member = _member.get();
         List<GrantedAuthority> authorities = new ArrayList<>();
+        System.out.println(member);
         if ("admin".equals(member)) {
             authorities.add(new SimpleGrantedAuthority(MemberRole.ADMIN.getValue()));
         } else {
