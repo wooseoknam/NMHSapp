@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react"
 import { Controller, useForm } from "react-hook-form";
-import { Button, Modal, Text, TextInput, TouchableHighlight, View } from "react-native"
+import { Button, Text, TextInput, View } from "react-native"
 import { IP } from "../../data";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Card, ListItem } from "@rneui/themed";
 
 const QuestionDetail = ({ route }) => {
-    const { id } = route.params;
-    const [data, setData] = useState([]);
+    const { id } = route.params
+    const [data, setData] = useState([])
     const {
         control,
         handleSubmit,
@@ -54,7 +55,7 @@ const QuestionDetail = ({ route }) => {
             method: 'DELETE',
         })
     }
-    
+
     const getUserName = async () => {
         setUserName(await AsyncStorage.getItem('user_id'))
     }
@@ -68,77 +69,48 @@ const QuestionDetail = ({ route }) => {
         })
     }, [])
 
-    const [modalVisible, setModalVisible] = useState(false)
-
-    const onPressButton = () => {
-        setModalVisible(true)
-    }
-
-    const onPressOption = (option) => {
-        console.log('Selected Option:', option)
-        setModalVisible(false)
-    }
-
     return (
         <View>
-            <Modal
-                animationType="slide"
-                transparent={true}
-                visible={modalVisible}
-                onRequestClose={() => {
-                setModalVisible(false);
-                }}
-            >
-                <View>
-                <View>
-                    {/* 드롭다운 메뉴의 옵션들 */}
-                    <TouchableHighlight onPress={() => onPressOption('Option 1')}>
-                    <Text>Option 1</Text>
-                    </TouchableHighlight>
-                    <TouchableHighlight onPress={() => onPressOption('Option 2')}>
-                    <Text>Option 2</Text>
-                    </TouchableHighlight>
-                    <TouchableHighlight onPress={() => onPressOption('Option 3')}>
-                    <Text>Option 3</Text>
-                    </TouchableHighlight>
-
-                    <Button
-                    title="Close"
-                    onPress={() => {
-                        setModalVisible(false);
-                    }}
-                    />
-                </View>
-                </View>
-            </Modal>
             {
                 data && 
                 <>
-                    <Text>제목: {data.subject}</Text>
-                    <Text>내용: {data.content}</Text>
+                    <Card>
+                        <Card.Title>{data.subject}</Card.Title>
+                        <Card.Divider />
+                        <Text>{data.content}</Text>  
+                    </Card>
 
-                    {data.answerList && data.answerList.map((item, index) => (
-                        <Text key={index}>{item.content}</Text>
-                    ))}
+                    <Card>
+                        {data.answerList && data.answerList.map((item, index) => (
+                            <ListItem key={index}>
+                                <ListItem.Content>
+                                    <ListItem.Title>{`익명${index+1}`}</ListItem.Title>
+                                    <ListItem.Subtitle>{item.content}</ListItem.Subtitle>
+                                </ListItem.Content>
+                            </ListItem>
+                        ))}
+                    </Card>
 
-                    <Controller
-                        control={control}
-                        rules={{
-                        required: true,
-                        }}
-                        render={({ field: { onChange, onBlur, value } }) => (
-                        <TextInput
-                            placeholder="댓글을 입력하세요."
-                            onBlur={onBlur}
-                            onChangeText={onChange}
-                            value={value}
+                    <Card>
+                        <Controller
+                            control={control}
+                            rules={{
+                            required: true,
+                            }}
+                            render={({ field: { onChange, onBlur, value } }) => (
+                                <TextInput
+                                    placeholder="댓글을 입력하세요."
+                                    onBlur={onBlur}
+                                    onChangeText={onChange}
+                                    value={value}
+                                />
+                            )}
+                            name="answer"
                         />
-                        )}
-                        name="answer"
-                    />
-                    {errors.answer && <Text>댓글을 입력하세요.</Text>}
+                        {errors.answer && <Text>댓글을 입력하세요.</Text>}
+                        <Button title="답변 등록" onPress={handleSubmit(onSubmit)} disabled={!watch("answer")}/>
+                    </Card>
 
-                    <Button title="답변 등록" onPress={handleSubmit(onSubmit)} disabled={!watch("answer")}/>
                     {data && data.member && data.member.name === userName &&
                         <View>
                             <Button title="글 수정" onPress={() => onPut()}></Button>

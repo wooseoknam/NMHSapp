@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { Button } from '@rneui/base'
 import { useEffect } from 'react'
-import { Text, View } from 'react-native'
+import { View } from 'react-native'
 import { IP } from '../data'
 
 const Test = ({ navigation }) => {
