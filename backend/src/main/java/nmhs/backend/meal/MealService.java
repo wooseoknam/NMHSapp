@@ -15,10 +15,12 @@ public class MealService {
     private final Logger log = LoggerFactory.getLogger(this.getClass().getSimpleName());
 
     private final MealRepository mealRepository;
+    private final MealCountRepository mealCountRepository;
     private final MemberRepository memberRepository;
 
-    public MealService(MealRepository mealRepository, MemberRepository memberRepository) {
+    public MealService(MealRepository mealRepository, MealCountRepository mealCountRepository, MemberRepository memberRepository) {
         this.mealRepository = mealRepository;
+        this.mealCountRepository = mealCountRepository;
         this.memberRepository = memberRepository;
     }
 
@@ -27,7 +29,7 @@ public class MealService {
             try {
                 Meal newMeal = new Meal();
                 newMeal.setVotedDate(LocalDateTime.now());
-                newMeal.setDayOfWeek(m.getDayOfWeek());
+                newMeal.setTime(m.getTime());
 
                 Optional<Member> member = memberRepository.findByName("ㅇ");
                 newMeal.setMember(member.get());
@@ -44,10 +46,15 @@ public class MealService {
 
         int[] result = new int[21];
         for (int i=0; i< voteList.size(); i++) {
-            Integer time = voteList.get(i).getDayOfWeek();
+            Integer time = voteList.get(i).getTime();
             result[time] += 1;
         }
 
         return result;
+    }
+
+    public List<MealCount> voteCount() {
+        List<MealCount> voteCount = mealCountRepository.findAll();
+        return voteCount;
     }
 }

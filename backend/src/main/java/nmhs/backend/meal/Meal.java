@@ -1,20 +1,16 @@
 package nmhs.backend.meal;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import nmhs.backend.community.answer.Answer;
 import nmhs.backend.member.Member;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
 public class Meal {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private LocalDateTime mealDate;
-    private Integer dayOfWeek;
+    private Integer time;
     private LocalDateTime votedDate;
     @ManyToOne
     private Member member;
@@ -27,20 +23,12 @@ public class Meal {
         this.id = id;
     }
 
-    public LocalDateTime getMealDate() {
-        return mealDate;
+    public Integer getTime() {
+        return time;
     }
 
-    public void setMealDate(LocalDateTime mealDate) {
-        this.mealDate = mealDate;
-    }
-
-    public Integer getDayOfWeek() {
-        return dayOfWeek;
-    }
-
-    public void setDayOfWeek(Integer dayOfWeek) {
-        this.dayOfWeek = dayOfWeek;
+    public void setTime(Integer dayOfWeek) {
+        this.time = time;
     }
 
     public LocalDateTime getVotedDate() {

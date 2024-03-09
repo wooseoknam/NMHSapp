@@ -31,4 +31,10 @@ public class MealController {
         int[] voteList = mealService.voteResult();
         return voteList;
     }
+
+    @GetMapping("/vote/count")
+    public List<MealCount> voteCount() {
+        List<MealCount> voteCount = mealService.voteCount();
+        return voteCount;
+    }
 }

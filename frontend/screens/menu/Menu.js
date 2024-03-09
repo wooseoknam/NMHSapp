@@ -1,12 +1,16 @@
 import { useEffect, useState } from "react"
-import { View, Text, TouchableOpacity } from "react-native"
+import { View, TouchableOpacity } from "react-native"
 import Checkbox from 'expo-checkbox'
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import { IP } from "../../data"
+import { DataTable, Text } from "react-native-paper"
+import moment from "moment"
 
 const Menu = ({ navigation }) => {
-    const [userRole, setUserRole] = useState('')
-    const [voteResult, setVoteResult] = useState([])
+    // const [userRole, setUserRole] = useState('')
+    // const [voteResult, setVoteResult] = useState([])
+    const [userName, setUserName] = useState('')
+    const [voteCount, setVoteCount] = useState()
 
     const daysOfWeek = ['월요일', '화요일', '수요일', '목요일', '금요일', '토요일', '일요일']
 
@@ -45,32 +49,45 @@ const Menu = ({ navigation }) => {
         })
     }
 
-    const gerUserRole = async () => {
-        setUserRole(await AsyncStorage.getItem('role'))
+    // const gerUserRole = async () => {
+    //     setUserRole(await AsyncStorage.getItem('role'))
+    // }
+
+    const getUserName = async () => {
+        setUserName(await AsyncStorage.getItem('user_id'))
     }
 
     useEffect(() => {   
-        gerUserRole()
+        // gerUserRole()
+        getUserName()
     }, [])
 
+    // useEffect(() => {
+    //     fetch(`http://${IP}:8080/vote/result`)
+    //     .then((res) => res.json())
+    //     .then((res) => {
+    //         setVoteResult(res)
+    //     })
+    // }, [])
+
     useEffect(() => {
-        fetch(`http://${IP}:8080/vote/result`)
+        fetch(`http://${IP}:8080/vote/count`)
         .then((res) => res.json())
-        .then((res) => {
-            setVoteResult(res)
-        })
+        .then((res) => setVoteCount(res))
     }, [])
 
-    useEffect(() => {
-        console.log(voteResult)
-    }, [voteResult])
+    const currentDate = moment()
+
+    const nextMonday = currentDate.clone().day(8).format('YYYY-MM-DD')
+
+    const nextSunday = currentDate.clone().day(14).format('YYYY-MM-DD')
 
     return (
-        <View style={{ flex: 1, alignItems: 'center', marginVertical: 100 }}>
-            { userRole !== 'nutritionist' &&
-                <>
+        <>
+            { userName !== 'test' &&
+                <View style={{ flex: 1, alignItems: 'center', paddingTop: 180 }}>
                     <Text>다음주 식사 일정</Text>
-                    <View style={{ flex: 1, marginVertical: 50 }}>
+                    <View style={{ flex: 1, marginVertical: 20 }}>
                         {daysOfWeek.map((day, idx1) => (
                             <View key={day} style={{ marginVertical: 10 }}>
                                 <Text>{day}</Text>
@@ -94,31 +111,38 @@ const Menu = ({ navigation }) => {
                             padding: 10,
                             backgroundColor: 'blue',
                             borderRadius: 5,
+                            marginBottom: 50
                         }}
                         onPress={handleVote}
                     >
                         <Text style={{ color: 'white' }}>제출하기</Text>
                     </TouchableOpacity>
-                </>
-            }
-
-            { userRole === 'nutritionist' && 
-                <View>
-                    {daysOfWeek.map((day, idx1) => (
-                        <View key={day} style={{ marginVertical: 10 }}>
-                            <Text>{day}</Text>
-                            <View style={{ flexDirection: 'row' }}>
-                                {['아침', '점심', '저녁'].map((mealTime, idx2) => (
-                                    <View key={mealTime} style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                        <Text>{voteResult[3*idx1+idx2]}</Text>
-                                    </View>
-                                ))}
-                            </View>
-                        </View>
-                    ))}
                 </View>
             }
-        </View>
+
+            { userName === 'test' && voteCount && 
+                <View style={{ flex: 1, paddingTop: 180 }}>
+                    <Text variant="headlineMedium" style={{ paddingBottom: 20, paddingLeft: 50 }}>{nextMonday} ~ {nextSunday}</Text>
+                    <DataTable>
+                        <DataTable.Header>
+                            <DataTable.Title>요일</DataTable.Title>
+                            <DataTable.Title numeric>조식</DataTable.Title>
+                            <DataTable.Title numeric>중식</DataTable.Title>
+                            <DataTable.Title numeric>석식</DataTable.Title>
+                        </DataTable.Header>
+
+                        {voteCount.map((item) => (
+                            <DataTable.Row key={item.id}>
+                                <DataTable.Cell>{item.day}</DataTable.Cell>
+                                <DataTable.Cell numeric>{item.breakFast}</DataTable.Cell>
+                                <DataTable.Cell numeric>{item.lunch}</DataTable.Cell>
+                                <DataTable.Cell numeric>{item.dinner}</DataTable.Cell>
+                            </DataTable.Row>
+                        ))}
+                    </DataTable>
+                </View>
+            }
+        </>
     )
 }
 
