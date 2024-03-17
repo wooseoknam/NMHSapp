@@ -131,8 +131,8 @@ const Menu = ({ navigation }) => {
                             <DataTable.Title numeric>석식</DataTable.Title>
                         </DataTable.Header>
 
-                        {voteCount.map((item) => (
-                            <DataTable.Row key={item.id}>
+                        {voteCount.map((item, idx) => (
+                            <DataTable.Row key={idx}>
                                 <DataTable.Cell>{item.day}</DataTable.Cell>
                                 <DataTable.Cell numeric>{item.breakFast}</DataTable.Cell>
                                 <DataTable.Cell numeric>{item.lunch}</DataTable.Cell>

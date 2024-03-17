@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import nmhs.backend.member.Member;
 import nmhs.backend.member.MemberRole;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,7 +19,7 @@ public class QuestionService {
     }
 
     public List<Question> getList() {
-        return this.questionRepository.findAll();
+        return this.questionRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
     }
 
     public Question getDetail(Integer id) {
